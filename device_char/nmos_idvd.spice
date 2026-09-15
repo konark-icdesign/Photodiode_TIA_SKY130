@@ -1,0 +1,19 @@
+* NMOS Id vs Vds
+* nested Vgs sweep so I can see linear -> saturation region
+
+.lib "$PDK_ROOT/sky130A/libs.tech/ngspice/sky130.lib.spice" tt
+
+VDS d 0 0
+VGS g 0 0
+
+XM1 d g 0 0 sky130_fd_pr__nfet_01v8 L=0.5u W=10u
+
+.control
+set wr_singlescale
+set wr_vecnames
+dc VDS 0 1.8 0.01 VGS 0.4 1.8 0.2
+wrdata nmos_idvd.csv v(d) -i(VDS)
+quit
+.endc
+
+.end
