@@ -1,44 +1,31 @@
-# Photodiode TIA in SKY130
+# Photodiode TIA - SKY130
 
-This project is a low-light photodiode readout circuit built around a transimpedance amplifier (TIA) in SKY130.
+starting this as my analog IC project. goal for now is simple: take the small current from a photodiode and convert it into a useful voltage using a CMOS transimpedance amplifier.
 
-I am starting from the sensor side rather than treating this as just another op-amp exercise. A photodiode produces a small current, so the first problem is to convert that current into a useful voltage while keeping the circuit stable with detector capacitance at the input.
-
-## V1 scope
-
-The first version will use an external silicon photodiode model and a SKY130 CMOS TIA.
-
-Current starting targets:
+I did some pre-work before making this repo so I already have a rough direction, but these numbers are just starting points. they can change when I start the actual device simulations.
 
 - supply: 1.8 V
-- external photodiode
-- photocurrent range: 50 nA to 500 nA
-- nominal detector/input capacitance: 5 pF
+- photodiode: external silicon photodiode for V1
+- photocurrent range to start with: 50 nA to 500 nA
 - feedback resistor: 1 MOhm
-- feedback capacitor: 3.3 pF starting value
-- target signal bandwidth: around 50 kHz
-- manual analog layout
-- DRC, LVS and extracted post-layout simulation before calling the design complete
+- feedback capacitor: around 3.3 pF
+- input/detector capacitance: around 5 pF nominal
+- bandwidth target: around 50 kHz
+- first amplifier I want to try: simple 5 transistor OTA
 
-These are design targets, not measured results. They can change once the actual SKY130 device simulations start.
+I first thought about going lower than 50 nA and also looked at a bigger two-stage OTA, but for now I dont want to make the circuit complicated for no reason. I will see what the actual SKY130 simulations show first.
 
-## Why this range
+first actual work here will be device characterization. I want to check the NMOS and PMOS first and then build the OTA from there, not put a finished circuit in the repo on day one.
 
-I first considered pushing the minimum current lower, but a very small signal quickly makes OTA offset, low-frequency noise and leakage much more important. For V1 I am keeping the problem realistic and will characterize how far the design can be pushed after the basic circuit works.
-
-## Planned flow
-
-SKY130 PDK -> Xschem -> ngspice -> C/gnuplot for result processing -> Magic -> Netgen -> parasitic extraction -> post-layout ngspice -> KLayout
-
-## First technical step
-
-Characterize the SKY130 NMOS and PMOS devices before fixing the amplifier sizing.
-
-The first plots I want are:
+first plots:
 
 - Id vs Vgs
 - Id vs Vds
 - gm vs Vgs
 - gm/Id vs Vgs
 
-The amplifier and TIA design will be built from those results rather than starting with final transistor sizes copied into the repository.
+rough flow I plan to use:
+
+`SKY130 -> Xschem -> ngspice -> C/gnuplot -> Magic -> Netgen -> KLayout`
+
+this repo is just starting. no DRC/LVS/GDS or final performance claims yet. I will add those only when I actually have the reports and results.
