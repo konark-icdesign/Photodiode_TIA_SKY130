@@ -1,0 +1,20 @@
+* PMOS Id vs drain voltage
+* gate is swept too. keeping this simple first, will clean plots after first run
+
+.lib "$PDK_ROOT/sky130A/libs.tech/ngspice/sky130.lib.spice" tt
+
+VDD s 0 1.8
+VD  d 0 1.8
+VG  g 0 1.8
+
+XM1 d g s s sky130_fd_pr__pfet_01v8 L=0.5u W=10u
+
+.control
+set wr_singlescale
+set wr_vecnames
+dc VD 1.8 0 -0.01 VG 1.4 0 -0.2
+wrdata pmos_idvd.csv v(d) i(VD)
+quit
+.endc
+
+.end
