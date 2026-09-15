@@ -1,0 +1,20 @@
+* first PMOS check - Id vs gate voltage
+* source and bulk at 1.8V, drain at 0.9V
+
+.lib "$PDK_ROOT/sky130A/libs.tech/ngspice/sky130.lib.spice" tt
+
+VDD s 0 1.8
+VD  d 0 0.9
+VG  g 0 1.8
+
+XM1 d g s s sky130_fd_pr__pfet_01v8 L=0.5u W=10u
+
+.control
+set wr_singlescale
+set wr_vecnames
+dc VG 1.8 0 -0.01
+wrdata pmos_idvg.csv v(g) i(VD)
+quit
+.endc
+
+.end
