@@ -15,17 +15,22 @@ I did some pre-work before making this repo so I already have a rough direction,
 
 I first thought about going lower than 50 nA and also looked at a bigger two-stage OTA, but for now I dont want to make the circuit complicated for no reason. I will see what the actual SKY130 simulations show first.
 
-first actual work here will be device characterization. I want to check the NMOS and PMOS first and then build the OTA from there, not put a finished circuit in the repo on day one.
+first actual work here is device characterization. I added the first NMOS/PMOS Id-Vgs and Id-Vds sweep decks. no run data committed yet, so I am not treating them as results yet.
 
-first plots:
+next after the first runs:
 
-- Id vs Vgs
-- Id vs Vds
 - gm vs Vgs
 - gm/Id vs Vgs
+- repeat for a few channel lengths
+- pick a useful bias region
+- build the first 5T OTA
 
 rough flow I plan to use:
 
 `SKY130 -> Xschem -> ngspice -> C/gnuplot -> Magic -> Netgen -> KLayout`
 
-this repo is just starting. no DRC/LVS/GDS or final performance claims yet. I will add those only when I actually have the reports and results.
+there is also some pre-project numerical work in `notes/prework_checks.md`. that includes why I landed near 1 MOhm / 3.3 pF, the 50-500 nA range, the 5T OTA choice and the rough stress test. those numbers are just planning/reference work, not final project measurements.
+
+`notes/problems_so_far.md` has the assumptions that already changed and what is still not proven.
+
+no DRC/LVS/GDS or final performance claims yet. I will add those only when I actually have the reports and results.
